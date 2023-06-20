@@ -32,15 +32,16 @@ The project contains the following files and directories:
 3. Add your Flickr API key and API secret to the `.env` file:
     
     ```
-    `FLICKR_API_KEY=your-api-key
-    FLICKR_API_SECRET=your-api-secret`
+    FLICKR_API_KEY=your-api-key
+    FLICKR_API_SECRET=your-api-secret
     ```
     
 - Modify the `src/main.py` file to specify the keyword, number of images per page, desired image size, and save directory.
 - Run the script:
     
     ```
-    `python src/main.py`
+    cd src
+    python main.py
     ```
     
 
