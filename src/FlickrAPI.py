@@ -1,7 +1,7 @@
 import flickrapi
 import urllib
 import os
-
+from time import sleep
 class FlickrAPI():
     """
         A wrapper class for interacting with the Flickr API to retrieve images.
@@ -62,11 +62,14 @@ class FlickrAPI():
         photos = self.flickr.photos.search(text=keyword, per_page = per_page)
         save_dir = f"../img/{save_directory}"
         os.makedirs(save_dir, exist_ok=True)
-        
         n_images = len(photos["photos"]["photo"])
         for index, photo in enumerate(photos["photos"]["photo"]):
             photo_id = photo["id"]
-            photo_url = self._get_photo_url(photo_id, desired_size)
+            try:
+                photo_url = self._get_photo_url(photo_id, desired_size)
+            except:
+                sleep(5)
+                continue
             if(photo_url):
                 image_file_name = f"{photo_id}.jpg"
                 file_path = os.path.join(save_dir,image_file_name)
