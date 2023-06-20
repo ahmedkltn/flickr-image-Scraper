@@ -52,7 +52,7 @@ class FlickrAPI():
         Args:
             keyword (str): The keyword used for searching images.
             per_page (int): The number of images to retrieve per page.
-            desired_size (str): The desired size of the images to download (e.g., 'Large', 'Medium', 'Original').
+            desired_size (str): The desired size of the images to download (e.g., 'Large', 'Medium', 'Original', 'small').
             save_directory (str): The directory path where the downloaded images will be saved.
 
         Returns:
@@ -60,15 +60,18 @@ class FlickrAPI():
         """
         self.keyword = keyword
         photos = self.flickr.photos.search(text=keyword, per_page = per_page)
-        save_dir = save_directory
-        os.makedirs(save_dir, exist_ok=False)
+        save_dir = f"../img/{save_directory}"
+        os.makedirs(save_dir, exist_ok=True)
         
-        for photo in photos["photos"]["photo"]:
+        n_images = len(photos["photos"]["photo"])
+        for index, photo in enumerate(photos["photos"]["photo"]):
             photo_id = photo["id"]
             photo_url = self._get_photo_url(photo_id, desired_size)
-            image_file_name = f"{photo_id}.jpg"
-            file_path = os.path.join(save_dir,image_file_name)
-            urllib.request.urlretrieve(photo_url,file_path)
+            if(photo_url):
+                image_file_name = f"{photo_id}.jpg"
+                file_path = os.path.join(save_dir,image_file_name)
+                print(f"{index + 1 } / {n_images} saved")
+                urllib.request.urlretrieve(photo_url,file_path)
 
 
 
@@ -84,9 +87,9 @@ class FlickrAPI():
             str: The URL of the photo in the desired size.
         """
         sizes = self.flickr.photos.getSizes(photo_id = id)
-
+        photo_url = None
         for size in sizes["sizes"]["size"]:
-            if size["label"] == desired_size:
+            if size["label"].lower() == desired_size.lower():
                 photo_url = size["source"]
                 break
         return photo_url
