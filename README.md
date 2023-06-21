@@ -29,7 +29,11 @@ The project contains the following files and directories:
     - Create a Flickr API account at https://www.flickr.com/services/apps/create/.
     - Obtain an API key and API secret.
 2. create `.env` file in the root directory of the project.
-3. Add your Flickr API key and API secret to the `.env` file:
+3. create image file
+   ```
+   mkdir img
+   ```
+5. Add your Flickr API key and API secret to the `.env` file:
     
     ```
     FLICKR_API_KEY=your-api-key
